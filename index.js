@@ -26,6 +26,7 @@ async function run() {
     const cardCollection = database.collection('card-products');
     const featureCollection = database.collection('feature-products');
     const newCollection = database.collection('new-products');
+    const buyerInfo = database.collection('buyer-info');
 
     // Latest Products ______________
 
@@ -51,6 +52,14 @@ async function run() {
       const cursor = featureCollection.find({});
       const product = await cursor.toArray();
       res.send(product);
+    });
+
+    // Post buyer info to data base_________
+
+    app.post('/buyerinfo', async (req, res) => {
+      const user = req.body;
+      const result = await buyerInfo.insertMany(user);
+      res.json(result);
     });
   } finally {
     // await client.close();
